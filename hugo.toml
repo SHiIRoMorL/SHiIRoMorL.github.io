@@ -1,5 +1,5 @@
 baseURL = "https://shiiromorl.github.io/"
-languageCode = "zh-cn"
+languageCode = "zh"
 title = "ShIRoMorl's Library"
 theme = "new"
-defaultContentLanguage = "zh-cn"
+defaultContentLanguage = "zh"

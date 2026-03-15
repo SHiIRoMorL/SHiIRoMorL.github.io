@@ -1,7 +1,7 @@
 [en]
     languageName = "English"
     title        = "ShIRoMorl's Library"
-    weight       = 1
+    weight       = 2
 
     [en.params.sidebar]
         subtitle = "Card-style Hugo theme designed for bloggers"
@@ -9,7 +9,7 @@
 [zh]
     languageName = "简体中文"
     title        = "ShIRoMorl's Library"
-    weight       = 2
+    weight       = 1
 
     [zh.params.sidebar]
         subtitle = "你好，这是赛博社恐的个人站喵"

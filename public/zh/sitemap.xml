@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/zh/</loc>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2026-01-26T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/"
+                href="http://localhost:1313/en/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -22,15 +22,15 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/"
+                href="http://localhost:1313/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
     <lastmod>2026-01-26T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/categories/"
+                href="http://localhost:1313/en/categories/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -45,15 +45,15 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/categories/"
+                href="http://localhost:1313/categories/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/tags/gallery/</loc>
+    <loc>http://localhost:1313/tags/gallery/</loc>
     <lastmod>2026-01-26T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/tags/gallery/"
+                href="http://localhost:1313/en/tags/gallery/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -68,15 +68,15 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/tags/gallery/"
+                href="http://localhost:1313/tags/gallery/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/page/</loc>
+    <loc>http://localhost:1313/page/</loc>
     <lastmod>2026-01-26T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/page/"
+                href="http://localhost:1313/en/page/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -91,15 +91,15 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/page/"
+                href="http://localhost:1313/page/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/tags/photoswipe/</loc>
+    <loc>http://localhost:1313/tags/photoswipe/</loc>
     <lastmod>2026-01-26T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/tags/photoswipe/"
+                href="http://localhost:1313/en/tags/photoswipe/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -114,15 +114,15 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/tags/photoswipe/"
+                href="http://localhost:1313/tags/photoswipe/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/post/</loc>
+    <loc>http://localhost:1313/post/</loc>
     <lastmod>2026-01-26T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/post/"
+                href="http://localhost:1313/en/post/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -137,15 +137,15 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/post/"
+                href="http://localhost:1313/post/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/tags/</loc>
+    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2026-01-26T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/tags/"
+                href="http://localhost:1313/en/tags/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -160,15 +160,15 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/tags/"
+                href="http://localhost:1313/tags/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/post/shortcodes/</loc>
+    <loc>http://localhost:1313/post/shortcodes/</loc>
     <lastmod>2026-01-26T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/post/shortcodes/"
+                href="http://localhost:1313/en/post/shortcodes/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -183,15 +183,15 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/post/shortcodes/"
+                href="http://localhost:1313/post/shortcodes/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/page/about/</loc>
+    <loc>http://localhost:1313/page/about/</loc>
     <lastmod>2026-01-26T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/page/about/"
+                href="http://localhost:1313/en/page/about/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -206,15 +206,15 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/page/about/"
+                href="http://localhost:1313/page/about/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/categories/documentation/</loc>
+    <loc>http://localhost:1313/categories/documentation/</loc>
     <lastmod>2026-01-26T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/categories/documentation/"
+                href="http://localhost:1313/en/categories/documentation/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -229,15 +229,15 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/categories/documentation/"
+                href="http://localhost:1313/categories/documentation/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/post/image-gallery/</loc>
+    <loc>http://localhost:1313/post/image-gallery/</loc>
     <lastmod>2026-01-26T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/post/image-gallery/"
+                href="http://localhost:1313/en/post/image-gallery/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -252,10 +252,10 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/post/image-gallery/"
+                href="http://localhost:1313/post/image-gallery/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/tags/%E9%9A%90%E7%A7%81/</loc>
+    <loc>http://localhost:1313/tags/%E9%9A%90%E7%A7%81/</loc>
     <lastmod>2026-01-26T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -270,93 +270,108 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/tags/%E9%9A%90%E7%A7%81/"
+                href="http://localhost:1313/tags/%E9%9A%90%E7%A7%81/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/tags/css/</loc>
+    <loc>http://localhost:1313/tags/css/</loc>
     <lastmod>2026-01-25T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
+                href="http://localhost:1313/en/tags/css/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
                 href="http://localhost:1313/tags/css/"
                 />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="http://localhost:1313/zh/tags/css/"
-                />
   </url><url>
-    <loc>http://localhost:1313/zh/tags/html/</loc>
+    <loc>http://localhost:1313/tags/html/</loc>
     <lastmod>2026-01-25T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
+                href="http://localhost:1313/en/tags/html/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
                 href="http://localhost:1313/tags/html/"
                 />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="http://localhost:1313/zh/tags/html/"
-                />
   </url><url>
-    <loc>http://localhost:1313/zh/tags/markdown/</loc>
+    <loc>http://localhost:1313/tags/markdown/</loc>
     <lastmod>2026-01-25T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
+                href="http://localhost:1313/en/tags/markdown/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
                 href="http://localhost:1313/tags/markdown/"
                 />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="http://localhost:1313/zh/tags/markdown/"
-                />
   </url><url>
-    <loc>http://localhost:1313/zh/post/markdown-syntax/</loc>
+    <loc>http://localhost:1313/post/markdown-syntax/</loc>
     <lastmod>2026-01-25T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
+                href="http://localhost:1313/en/post/markdown-syntax/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
                 href="http://localhost:1313/post/markdown-syntax/"
                 />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="http://localhost:1313/zh/post/markdown-syntax/"
-                />
   </url><url>
-    <loc>http://localhost:1313/zh/tags/themes/</loc>
+    <loc>http://localhost:1313/tags/themes/</loc>
     <lastmod>2026-01-25T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/tags/themes/"
+                href="http://localhost:1313/en/tags/themes/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/tags/themes/"
+                href="http://localhost:1313/tags/themes/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/post/math-typesetting/</loc>
+    <loc>http://localhost:1313/post/math-typesetting/</loc>
     <lastmod>2026-01-24T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/post/math-typesetting/"
+                href="http://localhost:1313/en/post/math-typesetting/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/post/math-typesetting/"
+                href="http://localhost:1313/post/math-typesetting/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/page/archives/</loc>
+    <loc>http://localhost:1313/tags/diagrams/</loc>
+    <lastmod>2025-12-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/mermaid/</loc>
+    <lastmod>2025-12-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/post/mermaid-diagrams/</loc>
+    <lastmod>2025-12-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/syntax/</loc>
+    <lastmod>2025-12-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/themes/</loc>
+    <lastmod>2025-12-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/page/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/page/archives/"
+                href="http://localhost:1313/en/page/archives/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -371,14 +386,14 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/page/archives/"
+                href="http://localhost:1313/page/archives/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/page/links/</loc>
+    <loc>http://localhost:1313/page/links/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/page/links/"
+                href="http://localhost:1313/en/page/links/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -393,14 +408,14 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/page/links/"
+                href="http://localhost:1313/page/links/"
                 />
   </url><url>
-    <loc>http://localhost:1313/zh/page/search/</loc>
+    <loc>http://localhost:1313/page/search/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/page/search/"
+                href="http://localhost:1313/en/page/search/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -415,7 +430,7 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/page/search/"
+                href="http://localhost:1313/page/search/"
                 />
   </url>
 </urlset>
