@@ -12,7 +12,7 @@
     weight       = 2
 
     [zh.params.sidebar]
-        subtitle = "为博客设计的卡片式 Hugo 主题"
+        subtitle = "你好，这是赛博社恐的个人站喵"
 
 [zh-hant-tw]
     languageName = "正體中文"
