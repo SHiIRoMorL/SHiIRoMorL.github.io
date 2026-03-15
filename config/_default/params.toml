@@ -3,7 +3,7 @@ rssFullContent = true
 favicon        = "img/avatar.png"
 
 [footer]
-    since = 2020
+    since = 2019
 
 [sidebar]
     emoji    = "✏️"
