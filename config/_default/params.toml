@@ -1,19 +1,58 @@
+# ==============================================================================
+# 站点参数（简体中文单语言站）
+# 说明：站点的 params.toml 会整体覆盖主题自带的 themes/new/config/_default/params.toml，
+#       因此这里保留了主题默认值 + 本机自定义项；缺失会导致日期格式、配色切换、
+#       图片处理等主题功能异常。
+# ==============================================================================
+
 mainSections   = ["post"]
 rssFullContent = true
-favicon        = "img/avatar.png"
+favicon        = "img/avatar1.jpg"
+
+# 文章排序："default" 或 "lastmod"
+SortBy         = "default"
 
 [footer]
-    since = 2019
+    since      = 2019
+    customText = ""
+
+[dateFormat]
+    published   = ":date_full"
+    lastUpdated = ":date_full"
 
 [sidebar]
-    emoji    = "✏️"
-    subtitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    avatar   = "img/avatar.jpg"
+    compact = false
+    emoji   = "😭"
+    enabled = true
+    avatar  = "img/avatar.png"
 
 [article]
+    headingAnchor = false
+    math          = true
+    toc           = true
+    readingTime   = true
+
+    [article.list]
+        showTags = false
+
     [article.license]
         enabled = true
         default = "Licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)"
+
+    [article.mermaid]
+        look                  = "classic"
+        lightTheme            = "default"
+        darkTheme             = "dark"
+        securityLevel         = "strict"
+        htmlLabels            = true
+        transparentBackground = false
+
+    [article.alertIcon]
+        note      = "📝"
+        tip       = "💡"
+        important = "📌"
+        warning   = "⚠️"
+        caution   = "🚨"
 
 [widgets]
     homepage = [
@@ -24,15 +63,85 @@ favicon        = "img/avatar.png"
     ]
     page     = [{ type = "toc" }]
 
+[opengraph.twitter]
+    site = ""
+    card = "summary_large_image"
+
+[colorScheme]
+    toggle  = true
+    default = "auto"
+
+[imageProcessing]
+    autoOrient = false
+
+    [imageProcessing.external]
+        timeout = "5s"
+
+    [imageProcessing.content]
+        widths  = [800, 1600, 2400]
+        enabled = true
+
+    [imageProcessing.thumbnail]
+        enabled = true
+
+# ------------------------------------------------------------------------------
+# 评论：provider 可改为 utterances / giscus / waline / twikoo 等，
+# 选定后需填写对应 provider 的参数（disqus 需要 shortname，否则评论区不会显示）。
+# ------------------------------------------------------------------------------
 [comments]
-    # See complete configuration in config/_default/params.toml
     enabled  = true
     provider = "disqus"
 
-# GDPR Cookie Consent Configuration
-# When enabled, analytics and functional cookies require user consent
+    [comments.disqusjs]
+        shortname  = ""
+        apiUrl     = ""
+        apiKey     = ""
+        admin      = ""
+        adminLabel = ""
+
+    [comments.utterances]
+        repo      = ""
+        issueTerm = "pathname"
+        label     = ""
+
+    [comments.giscus]
+        repo             = ""
+        repoID           = ""
+        category         = ""
+        categoryID       = ""
+        mapping          = "title"
+        lightTheme       = "light"
+        darkTheme        = "dark_dimmed"
+        reactionsEnabled = 1
+        emitMetadata     = 0
+        inputPosition    = "top"
+        lang             = "zh-CN"
+        strict           = 0
+        loading          = "lazy"
+
+    [comments.waline]
+        serverURL    = ""
+        lang         = "zh-CN"
+        pageview     = ""
+        emoji        = ["https://unpkg.com/@waline/emojis@1.0.1/weibo"]
+        requiredMeta = ["name", "email", "url"]
+
+        [comments.waline.locale]
+            admin       = "管理员"
+            placeholder = ""
+
+    [comments.twikoo]
+        envId  = ""
+        region = ""
+        path   = ""
+        lang   = "zh-CN"
+
+# ------------------------------------------------------------------------------
+# Cookie 同意（当前关闭；开启后评论等需用户同意才会加载）
+# ------------------------------------------------------------------------------
 [cookies]
-    enabled = false
+    enabled      = false
+    showSettings = true
 
     [cookies.categories]
         analytics  = true

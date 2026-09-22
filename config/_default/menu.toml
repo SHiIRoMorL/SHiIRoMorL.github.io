@@ -1,7 +1,8 @@
+# 社交链接（显示在侧边栏）。请把 url 改成你自己的账号地址。
 [[social]]
     identifier = "github"
     name       = "GitHub"
-    url        = "https://github.com/"
+    url        = "https://github.com/SHiIRoMorL"
 
     [social.params]
         icon = "brand-github"
