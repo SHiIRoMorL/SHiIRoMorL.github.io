@@ -1,5 +1,23 @@
-baseURL      = "https://shiiromorl.github.io/"
-title        = "ShIRoMorl's Library"
-theme        = "new"
-languageCode = "zh-cn"
+# ==============================================================================
+# 站点基础配置
+# https://gohugo.io/getting-started/configuration/
+# ==============================================================================
+
+baseURL = "https://shiiromorl.github.io/"
+title   = "ShIRoMorl's Library"
+
+# 主题目录名（对应 themes/new/）
+theme = "new"
+
+# 单语言站点：简体中文
+languageCode           = "zh-cn"
 defaultContentLanguage = "zh"
+
+# ------------------------------------------------------------------------------
+# 分类法：本站暂不使用标签/分类。
+# 以后需要时改成下面这样，并在文章 front matter 里写 tags / categories 即可：
+#     [taxonomies]
+#         tag      = "tags"
+#         category = "categories"
+# ------------------------------------------------------------------------------
+[taxonomies]

@@ -1,0 +1,31 @@
+{{/*
+    首页（home）
+    ------------------------------------------------------------------
+    当前站点只有主页，所以文章列表为空、页面显得很干净。
+    侧边栏（头像 / 站名 / 副标题 / 菜单）由 baseof.html 调用的
+    partial "sidebar/left.html" 渲染，菜单项来自各页面的 front matter
+    或 config/_default/menu.toml。
+
+    【以后发文章后】文章放在 content/post/ 下，
+    并把 config/_default/params.toml 里的 mainSections 设为 ["post"]，
+    首页就会自动列出文章。
+*/}}
+{{ define "main" }}
+    {{- $paginator := partial "helper/paginator.html" . -}}
+
+    <section class="article-list">
+        {{ range $index, $element := $paginator.Pages }}
+            {{ partial "article-list/default" . }}
+        {{ end }}
+    </section>
+
+    {{- partial "pagination.html" . -}}
+    {{- partial "footer/footer" . -}}
+{{ end }}
+
+{{/* 右侧栏：已移除。此文件不渲染任何右栏内容。
+     若想恢复（需先在 params.toml 里配置 [widgets]），取消下面注释即可：
+{{ define "right-sidebar" }}
+    {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
+{{ end }}
+*/}}

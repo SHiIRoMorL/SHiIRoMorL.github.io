@@ -1,11 +1,19 @@
 # ==============================================================================
-# 站点参数（简体中文单语言站）
-# 说明：站点的 params.toml 会整体覆盖主题自带的 themes/new/config/_default/params.toml，
-#       因此这里保留了主题默认值 + 本机自定义项；缺失会导致日期格式、配色切换、
-#       图片处理等主题功能异常。
+# 站点参数
+# ------------------------------------------------------------------------------
+# 注意：本文件会「整体覆盖」主题自带的 themes/new/config/_default/params.toml，
+#       而不是逐项合并。所以下面保留的都是主题功能实际依赖的键，
+#       随意删除（如 dateFormat、colorScheme、imageProcessing）会导致
+#       日期格式、明暗切换、图片处理等功能异常。
+#
+# 本站目前只有主页，文章相关的配置暂时用不到但保留着，
+# 以后开始写文章时直接生效。
 # ==============================================================================
 
-mainSections   = ["post"]
+# 首页要列出哪些栏目的文章。发文章后设为 ["post"]（文章放在 content/post/ 下）。
+# 留空 = 首页不列出任何文章。
+mainSections   = []
+
 rssFullContent = true
 favicon        = "img/avatar1.jpg"
 
@@ -20,6 +28,8 @@ SortBy         = "default"
     published   = ":date_full"
     lastUpdated = ":date_full"
 
+# 左侧栏（头像 / 站名 / 副标题）。
+# 站名取自 hugo.toml 的 title，副标题在 languages.toml 里配置。
 [sidebar]
     compact = false
     emoji   = "😭"
@@ -54,14 +64,16 @@ SortBy         = "default"
         warning   = "⚠️"
         caution   = "🚨"
 
+# ------------------------------------------------------------------------------
+# 右侧栏小工具：已全部移除（右栏不再显示）。
+# 若想恢复右栏，在 layouts/home.html 里取消 right-sidebar 部分的注释，
+# 并在下面按需配置，例如：
+#     homepage = [{ type = "search" }, { type = "archives" }]
+#     page     = [{ type = "toc" }]
+# ------------------------------------------------------------------------------
 [widgets]
-    homepage = [
-        { type = "search" },
-        { type = "archives", params = { limit = 5 } },
-        { type = "categories", params = { limit = 10 } },
-        { type = "tag-cloud", params = { limit = 10 } },
-    ]
-    page     = [{ type = "toc" }]
+    homepage = []
+    page     = []
 
 [opengraph.twitter]
     site = ""
@@ -85,19 +97,16 @@ SortBy         = "default"
         enabled = true
 
 # ------------------------------------------------------------------------------
-# 评论：provider 可改为 utterances / giscus / waline / twikoo 等，
-# 选定后需填写对应 provider 的参数（disqus 需要 shortname，否则评论区不会显示）。
+# 评论：暂无文章，故关闭。
+# 需要时把 enabled 改为 true 并填好对应 provider 的参数
+# （disqus 需要 shortname；也可用 utterances / giscus / waline / twikoo）。
 # ------------------------------------------------------------------------------
 [comments]
-    enabled  = true
+    enabled  = false
     provider = "disqus"
 
     [comments.disqusjs]
-        shortname  = ""
-        apiUrl     = ""
-        apiKey     = ""
-        admin      = ""
-        adminLabel = ""
+        shortname = ""
 
     [comments.utterances]
         repo      = ""
@@ -105,44 +114,27 @@ SortBy         = "default"
         label     = ""
 
     [comments.giscus]
-        repo             = ""
-        repoID           = ""
-        category         = ""
-        categoryID       = ""
-        mapping          = "title"
-        lightTheme       = "light"
-        darkTheme        = "dark_dimmed"
-        reactionsEnabled = 1
-        emitMetadata     = 0
-        inputPosition    = "top"
-        lang             = "zh-CN"
-        strict           = 0
-        loading          = "lazy"
+        repo       = ""
+        repoID     = ""
+        category   = ""
+        categoryID = ""
+        mapping    = "title"
+        lang       = "zh-CN"
 
     [comments.waline]
         serverURL    = ""
         lang         = "zh-CN"
-        pageview     = ""
-        emoji        = ["https://unpkg.com/@waline/emojis@1.0.1/weibo"]
         requiredMeta = ["name", "email", "url"]
-
-        [comments.waline.locale]
-            admin       = "管理员"
-            placeholder = ""
 
     [comments.twikoo]
         envId  = ""
         region = ""
-        path   = ""
         lang   = "zh-CN"
 
 # ------------------------------------------------------------------------------
-# Cookie 同意（当前关闭；开启后评论等需用户同意才会加载）
+# 自定义参数示例：在模板里用 {{ .Site.Params.mysite.xxx }} 取用。
+# 可以直接按自己的需要增删。
 # ------------------------------------------------------------------------------
-[cookies]
-    enabled      = false
-    showSettings = true
-
-    [cookies.categories]
-        analytics  = true
-        functional = true
+[mysite]
+    # 例如：description = "这里是站点简介"
+    description = ""

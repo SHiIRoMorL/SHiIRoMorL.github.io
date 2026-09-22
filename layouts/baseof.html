@@ -1,0 +1,37 @@
+{{/*
+    页面骨架（baseof）
+    ------------------------------------------------------------------
+    这是全站唯一的 HTML 骨架，主题原版在 themes/new/layouts/baseof.html。
+    在此覆盖后，页面结构完全由本文件决定，方便按自己的想法重搭。
+
+    【右侧栏已移除】原版通过 `right-sidebar` 块调用
+    `partial "sidebar/right.html"`，并按「是否有 widget」决定容器宽度。
+    这里改为固定紧凑容器（compact），并保留一个空的 right-sidebar 块，
+    以后想恢复右栏，只需在下面该块中写：
+        {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
+
+    【可用的块】main（必需）、head、body-class、left-sidebar、right-sidebar
+    【删除左侧栏】把下面调用 sidebar/left.html 的那行删掉即可，
+                   那样就变成纯单栏页面。
+*/}}
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}" dir="{{ default `ltr` .Language.LanguageDirection }}">
+    <head>
+        {{- partial "head/head.html" . -}}
+        {{- block "head" . }}{{ end }}
+    </head>
+    <body class="{{ block `body-class` . }}{{ end }}">
+        {{- partial "head/colorScheme" . -}}
+
+        <div class="container main-container flex on-phone--column compact">
+            {{- block "left-sidebar" . -}}
+                {{ partial "sidebar/left.html" . }}
+            {{- end -}}
+            {{- block "right-sidebar" . -}}{{ end }}
+            <main class="main full-width">
+                {{- block "main" . }}{{ end }}
+            </main>
+        </div>
+        {{ partial "footer/include.html" . }}
+    </body>
+</html>
