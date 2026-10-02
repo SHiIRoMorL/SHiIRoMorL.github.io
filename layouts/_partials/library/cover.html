@@ -1,0 +1,4 @@
+{{/* 图片放在 assets/，也支持 static/ 中的相对路径。 */}}
+{{ $url := .image | relURL }}
+{{ with resources.Get .image }}{{ $url = .RelPermalink }}{{ end }}
+<img class="{{ .class }}" src="{{ $url }}" alt="" loading="lazy" decoding="async">

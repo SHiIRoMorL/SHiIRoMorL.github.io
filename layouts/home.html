@@ -1,31 +1,30 @@
-{{/*
-    首页（home）
-    ------------------------------------------------------------------
-    当前站点只有主页，所以文章列表为空、页面显得很干净。
-    侧边栏（头像 / 站名 / 副标题 / 菜单）由 baseof.html 调用的
-    partial "sidebar/left.html" 渲染，菜单项来自各页面的 front matter
-    或 config/_default/menu.toml。
-
-    【以后发文章后】文章放在 content/post/ 下，
-    并把 config/_default/params.toml 里的 mainSections 设为 ["post"]，
-    首页就会自动列出文章。
-*/}}
 {{ define "main" }}
-    {{- $paginator := partial "helper/paginator.html" . -}}
-
-    <section class="article-list">
-        {{ range $index, $element := $paginator.Pages }}
-            {{ partial "article-list/default" . }}
+    {{ $home := .Site.Data.library.home }}
+    <h1 class="visually-hidden">{{ .Site.Title }}</h1>
+    <div class="home-gallery" aria-label="个人收藏室">
+        <section class="welcome-card {{ if not $home.image }}is-placeholder{{ end }}">
+            {{ with $home.image }}
+                {{ partial "library/cover.html" (dict "image" . "class" "welcome-image") }}
+            {{ else }}
+                <div class="welcome-scenery" aria-hidden="true"><span class="scenery-orbit"></span><span class="scenery-horizon"></span></div>
+            {{ end }}
+            <div class="welcome-copy">
+                <p class="welcome-title">{{ .Site.Title }}</p>
+                <p class="welcome-subtitle">{{ $home.subtitle }}</p>
+            </div>
+        </section>
+        {{ range .Site.Data.library.portals }}
+            {{ $page := $.Site.GetPage .page }}
+            <a class="portal-card portal--{{ .key }}" href="{{ $page.RelPermalink }}">
+                <div class="portal-art {{ if not .image }}is-placeholder{{ end }}">
+                    {{ with .image }}
+                        {{ partial "library/cover.html" (dict "image" . "class" "portal-image") }}
+                    {{ else }}
+                        <span class="portal-symbol" aria-hidden="true">{{ partial "library/icon.html" .icon }}</span>
+                    {{ end }}
+                </div>
+                <div class="portal-copy"><h2>{{ .title }}</h2><p>{{ .description }}</p></div>
+            </a>
         {{ end }}
-    </section>
-
-    {{- partial "pagination.html" . -}}
-    {{- partial "footer/footer" . -}}
+    </div>
 {{ end }}
-
-{{/* 右侧栏：已移除。此文件不渲染任何右栏内容。
-     若想恢复（需先在 params.toml 里配置 [widgets]），取消下面注释即可：
-{{ define "right-sidebar" }}
-    {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
-{{ end }}
-*/}}

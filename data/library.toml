@@ -1,0 +1,57 @@
+# 首页布局：image 留空时使用渐变占位；以后填 assets/ 下的图片路径即可。
+[home]
+subtitle = "把喜欢的、用得上的，都留在这里。"
+image = ""
+
+[[portals]]
+key = "files"
+page = "/files"
+title = "文件柜"
+description = "文档、备份与零散资料"
+icon = "folder"
+image = ""
+
+[[portals]]
+key = "bookmarks"
+page = "/bookmarks"
+title = "收藏夹"
+description = "留住以后会用到的链接"
+icon = "link"
+image = ""
+
+[[portals]]
+key = "tools"
+page = "/tools"
+title = "小工具"
+description = "偶尔需要时，来这里找"
+icon = "tool"
+image = ""
+
+[[portals]]
+key = "notes"
+page = "/notes"
+title = "随手记"
+description = "想法、片段和日常记录"
+icon = "note"
+image = ""
+
+# 栏目条目：title、description、url；download = true 可设为下载链接。
+# 文件本体放在 static/files/，url 写成 /files/文件名。
+[collections.files]
+items = []
+
+[collections.bookmarks]
+[[collections.bookmarks.items]]
+title = "GitHub"
+description = "我的代码和折腾记录。"
+url = "https://github.com/SHiIRoMorL"
+icon = "link"
+
+[collections.tools]
+items = []
+
+[collections.notes]
+items = []
+
+[collections.games]
+items = []

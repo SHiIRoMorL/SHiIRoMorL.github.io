@@ -1,0 +1,44 @@
+<article class="collection-page">
+    <header class="collection-heading">
+        {{ with .Params.eyebrow }}<p class="eyebrow">{{ . }}</p>{{ end }}
+        <h1>{{ .Title }}</h1>
+        {{ with .Description }}<p>{{ . }}</p>{{ end }}
+    </header>
+    {{ with .Content }}<div class="library-prose">{{ . }}</div>{{ end }}
+    {{ $collection := index .Site.Data.library.collections (default "none" .Params.collection) }}
+    {{ with $collection }}
+        {{ if .items }}
+            <ul class="resource-list">
+                {{ range .items }}
+                    {{ $url := .url }}
+                    {{ $external := or (hasPrefix $url "https://") (hasPrefix $url "http://") }}
+                    {{ if not $external }}{{ $url = $url | relURL }}{{ end }}
+                    <li>
+                        <a class="resource-item" href="{{ $url }}" {{ if $external }}target="_blank" rel="noopener noreferrer"{{ end }}{{ if .download }} download{{ end }}>
+                            <span class="resource-icon">{{ partial "library/icon.html" (default "file" .icon) }}</span>
+                            <span class="resource-copy"><span class="resource-title">{{ .title }}</span>{{ with .description }}<span class="resource-description">{{ . }}</span>{{ end }}</span>
+                            <span class="resource-action">{{ if .download }}下载{{ else }}查看{{ end }}{{ partial "library/icon.html" "arrow" }}</span>
+                        </a>
+                    </li>
+                {{ end }}
+            </ul>
+        {{ end }}
+    {{ end }}
+    {{ $pages := .RegularPages.ByDate.Reverse }}
+    {{ if $pages }}
+        <ul class="resource-list">
+            {{ range $pages }}
+                <li><a class="resource-item" href="{{ .RelPermalink }}">
+                    <span class="resource-icon">{{ partial "library/icon.html" "note" }}</span>
+                    <span class="resource-copy"><span class="resource-title">{{ .Title }}</span>{{ with .Description }}<span class="resource-description">{{ . }}</span>{{ end }}</span>
+                    {{ partial "library/icon.html" "arrow" }}
+                </a></li>
+            {{ end }}
+        </ul>
+    {{ else if and $collection (not $collection.items) }}
+        <div class="collection-empty">
+            {{ partial "library/icon.html" (default "folder" .Params.icon) }}
+            <p>{{ default "这里暂时还是空的。" .Params.empty }}</p>
+        </div>
+    {{ end }}
+</article>

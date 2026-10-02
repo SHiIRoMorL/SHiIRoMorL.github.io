@@ -1,0 +1,39 @@
+<aside class="library-sidebar" aria-label="站点导航">
+    <div class="sidebar-top">
+        <a class="profile" href="{{ .Site.Home.RelPermalink }}" aria-label="{{ .Site.Title }}，返回主页">
+            {{ with resources.Get .Site.Params.sidebar.avatar }}
+                <img class="profile-avatar" src="{{ .RelPermalink }}" width="88" height="88" alt="ShIRoMorl 的头像">
+            {{ end }}
+            <div class="profile-copy">
+                <p class="profile-name">{{ .Site.Params.mysite.owner }}</p>
+                <p class="profile-description">{{ .Site.Params.sidebar.subtitle }}</p>
+            </div>
+        </a>
+        <button class="nav-toggle icon-button" type="button" aria-label="展开导航" aria-controls="library-nav" aria-expanded="false">
+            {{ partial "library/icon.html" "menu" }}
+        </button>
+    </div>
+    <nav class="library-nav" id="library-nav" aria-label="主导航">
+        <ul>
+            {{ $current := . }}
+            {{ range .Site.Menus.main }}
+                {{ $active := or ($current.IsMenuCurrent "main" .) ($current.HasMenuCurrent "main" .) (and .Page (.Page.IsAncestor $current)) }}
+                <li><a href="{{ .URL }}" {{ if $active }}class="is-active" aria-current="page"{{ end }}>
+                    {{ partial "library/icon.html" (default "folder" .Params.icon) }}
+                    <span>{{ .Name }}</span>
+                </a></li>
+            {{ end }}
+        </ul>
+    </nav>
+    <div class="sidebar-bottom">
+        {{ range .Site.Menus.social }}
+            <a class="icon-button" href="{{ .URL }}" aria-label="{{ .Name }}" title="{{ .Name }}" rel="me noopener noreferrer" target="_blank">
+                {{ partial "helper/icon.html" (default "link" .Params.icon) }}
+            </a>
+        {{ end }}
+        <button class="theme-toggle icon-button" type="button" aria-label="切换到暗色模式" title="切换到暗色模式" aria-pressed="false">
+            <span class="theme-moon">{{ partial "library/icon.html" "moon" }}</span>
+            <span class="theme-sun">{{ partial "library/icon.html" "sun" }}</span>
+        </button>
+    </div>
+</aside>
