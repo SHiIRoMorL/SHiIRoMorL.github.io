@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://api.github.com; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>内容管理 · ShIRoMorl's Library</title>
+  <link rel="stylesheet" href="__STYLE__">
+  <script src="__SCRIPT__" defer></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="#"><span class="brand-mark">L</span><span>ShIRoMorl's Library<small>内容管理</small></span></a><a id="back-site" class="quiet-link" href="https://shiiromorl.github.io/" target="_blank" rel="noopener noreferrer">返回网站 ↗</a></header>
+  <main>
+    <section id="login-panel" class="connection-card" aria-labelledby="login-title">
+      <span class="eyebrow">YOUR PERSONAL LIBRARY</span>
+      <h1 id="login-title">收好你的文件与故事。</h1>
+      <p class="lead">连接 GitHub，管理文件、链接和 Markdown 文档。</p>
+      <form id="login-form">
+        <label for="token">GitHub 细粒度访问令牌</label>
+        <input id="token" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" required placeholder="github_pat_…" aria-describedby="token-hint">
+        <p id="token-hint" class="hint">令牌仅用于当前页面，刷新或关闭后需要重新输入。</p>
+        <button class="primary" id="connect-button" type="submit">连接 GitHub</button>
+      </form>
+      <div class="connection-help"><p>仅授权 <strong>SHiIRoMorL.github.io</strong>：</p><ul><li>Contents：读写</li><li>Actions：只读，用于查看发布状态</li></ul><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">创建细粒度令牌 ↗</a></div>
+      <p id="login-error" class="error-message" role="alert"></p>
+      <button id="demo-login" class="secondary" type="button" hidden>进入本地演示</button>
+    </section>
+
+    <section id="dashboard" class="dashboard" hidden>
+      <div id="demo-banner" class="demo-banner" hidden>本地演示：修改只保存在内存里，不会上传到 GitHub。</div>
+      <div class="connection-bar"><span><i class="online-dot"></i><span id="account-name"></span></span><div><button id="refresh" class="plain" type="button">刷新列表</button><button id="disconnect" class="plain" type="button">断开连接</button></div></div>
+      <div id="publish-status" class="publish-status" role="status" hidden></div>
+      <div class="workspace">
+        <nav class="admin-nav" aria-label="管理栏目">
+          <button class="is-active" data-panel="files" type="button">文件柜</button>
+          <button data-panel="documents" type="button">文档</button>
+          <button data-panel="bookmarks" type="button">收藏夹</button>
+          <button data-panel="tools" type="button">小工具</button>
+          <button data-panel="about" type="button">关于我</button>
+        </nav>
+        <section class="content-panel" aria-labelledby="panel-title">
+          <div class="panel-heading"><div><h1 id="panel-title">文件柜</h1><p id="panel-description"></p></div><button id="create-item" class="primary" type="button" data-mutates>上传文件</button></div>
+          <div class="list-toolbar"><input id="filter" type="search" placeholder="筛选当前列表…" aria-label="筛选当前列表"><select id="document-category" aria-label="文档栏目" hidden><option value="all">全部文档</option><option value="notes">随手记</option><option value="games">游戏记录</option></select></div>
+          <div id="items" class="items" aria-live="polite"></div>
+        </section>
+      </div>
+    </section>
+    <div id="notice" class="notice" role="status" hidden></div>
+  </main>
+
+  <dialog id="file-dialog"><form id="file-form" class="editor-form"><div class="dialog-heading"><h2 id="file-dialog-title">上传文件</h2><button class="dialog-close plain" type="button" aria-label="关闭">×</button></div><label id="file-picker-label">选择文件<input id="upload-file" type="file"></label><label>文件名<input id="file-name" maxlength="120" required></label><label>显示标题<input id="file-title" maxlength="200" required></label><label>说明<textarea id="file-description" rows="3" maxlength="1000"></textarea></label><p class="hint">单个附件最多 8 MB。公开网站上的文件可被访客下载。</p><p class="form-error error-message" role="alert"></p><div class="form-actions"><button class="secondary dialog-close" type="button">取消</button><button class="primary" type="submit" data-mutates>保存文件</button></div></form></dialog>
+
+  <dialog id="link-dialog"><form id="link-form" class="editor-form"><div class="dialog-heading"><h2 id="link-dialog-title">添加链接</h2><button class="dialog-close plain" type="button" aria-label="关闭">×</button></div><label>标题<input id="link-title" maxlength="200" required></label><label>链接<input id="link-url" maxlength="2048" required placeholder="https://… 或 /站内路径"></label><label>说明<textarea id="link-description" rows="3" maxlength="1000"></textarea></label><p class="form-error error-message" role="alert"></p><div class="form-actions"><button class="secondary dialog-close" type="button">取消</button><button class="primary" type="submit" data-mutates>保存链接</button></div></form></dialog>
+
+  <dialog id="document-dialog" class="document-dialog"><form id="document-form" class="editor-form"><div class="dialog-heading"><h2 id="document-dialog-title">新建文档</h2><button class="dialog-close plain" type="button" aria-label="关闭">×</button></div><label>标题<input id="document-title" maxlength="200" required></label><label>简介<input id="document-description" maxlength="1000"></label><div class="form-row"><label>栏目<select id="editor-category"><option value="notes">随手记</option><option value="games">游戏记录</option><option value="about" hidden>关于我</option></select></label><label>日期<input id="document-date" type="date"></label></div><label id="slug-label">文件名（可选）<input id="document-slug" pattern="[a-z0-9][a-z0-9-]{0,79}" maxlength="80" placeholder="例如 first-note；留空自动生成"></label><div class="markdown-toolbar" aria-label="Markdown 格式"><button type="button" data-format="heading">标题</button><button type="button" data-format="bold">粗体</button><button type="button" data-format="link">链接</button><button type="button" data-format="list">列表</button><button type="button" data-format="code">代码</button></div><label for="document-body" class="visually-hidden">Markdown 正文</label><textarea id="document-body" class="markdown-editor" rows="16" spellcheck="false" placeholder="从这里写下正文…"></textarea><p class="hint">正文使用 Markdown；保存会创建 Git 提交，发布后网站自动更新。</p><p class="form-error error-message" role="alert"></p><div class="form-actions"><button id="save-draft" class="secondary" type="submit" data-draft="true" data-mutates>保存为草稿</button><button class="primary" type="submit" data-draft="false" data-mutates>保存并发布</button></div></form></dialog>
+  <footer class="footer">文件、收藏，以及偶尔留下的故事。</footer>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "shiromorl-library-admin",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/preview.mjs",
+    "demo": "node scripts/preview.mjs --demo",
+    "check": "npm test && npm run build"
+  },
+  "dependencies": {
+    "smol-toml": "1.9.0",
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.1"
+  }
+}

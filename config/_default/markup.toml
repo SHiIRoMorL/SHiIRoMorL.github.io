@@ -8,8 +8,8 @@
                 inline = [["\\(", "\\)"]]
 
     [goldmark.renderer]
-        ## Set to true if you have HTML content inside Markdown
-        unsafe = true
+        # 后台文档使用 Markdown，原始 HTML 不执行。
+        unsafe = false
 
 [tableOfContents]
     endLevel   = 4

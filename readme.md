@@ -61,7 +61,7 @@ icon = "file"
 
 `collections.bookmarks`、`collections.tools` 和 `collections.games` 使用同样的条目结构。外部网址使用完整 URL，自动在新标签页打开；本地路径按站点 baseURL 处理。
 
-这仍是静态网站：文件通过本地添加、构建和部署来更新，不包含在线上传或私人网盘功能。发布到 GitHub Pages 的文件可被公开访问。
+也可以通过站点的 `/admin/` 在浏览器中上传、删除文件和维护链接。后台使用 GitHub 细粒度令牌，详见 [后台使用说明](management/README.md)。网站文件仍保存在 GitHub 仓库中，发布到 GitHub Pages 的文件可被公开访问。
 
 ## 添加随手记和游戏记录
 
@@ -82,3 +82,11 @@ date: 2026-10-02
 ## 部署
 
 推送到 `main` 后，由 `.github/workflows/hugo.yml` 构建并部署到 GitHub Pages。`public/` 和 `resources/` 是生成目录，已由 `.gitignore` 忽略。本地编辑和预览不会自动发布，推送提交后才会触发部署。
+
+## 网页内容管理
+
+后台：https://shiiromorl.github.io/admin/
+
+无需 Cloudflare 或额外账号。创建只授权此仓库的 GitHub 细粒度令牌，设置 Contents 读写和 Actions 只读权限，然后在后台连接。令牌仅保存在当前页面内存中。
+
+支持文件上传、重命名、删除，收藏和工具链接维护，以及 Markdown 文档的草稿、发布和编辑。详细步骤和本地演示见 [management/README.md](management/README.md)。

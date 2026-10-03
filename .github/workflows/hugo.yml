@@ -26,6 +26,19 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: management/package-lock.json
+
+      - name: Build content manager
+        run: |
+          npm ci --prefix management --ignore-scripts --no-audit --no-fund
+          npm --prefix management test
+          npm --prefix management run build
+
       - name: Build
         run: hugo
 

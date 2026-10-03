@@ -12,6 +12,7 @@ theme = "new"
 # 单语言站点：简体中文
 languageCode           = "zh-cn"
 defaultContentLanguage = "zh"
+timeZone               = "Asia/Shanghai"
 
 # ------------------------------------------------------------------------------
 # 分类法：本站暂不使用标签/分类。

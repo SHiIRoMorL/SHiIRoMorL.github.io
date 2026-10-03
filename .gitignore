@@ -16,3 +16,7 @@ desktop.ini
 .idea/
 .vscode/
 node_modules/
+
+# 管理后台本地凭据
+management/.env
+management/.env.*
