@@ -37,8 +37,14 @@ export function documentPath(value, allowAbout = true) {
 
 export function writablePath(value) {
   if (value === LIBRARY_PATH) return value;
+  if (typeof value === 'string' && value.startsWith('static/images/site/')) return managedImagePath(value);
   if (value.startsWith('static/')) return filePath(value);
   return documentPath(value);
+}
+
+export function managedImagePath(value) {
+  if (typeof value !== 'string' || !/^static\/images\/site\/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}\.(png|jpg|jpeg|webp|gif)$/.test(value)) throw new HttpError(400, '只能管理后台上传的站点图片。', 'path_forbidden');
+  return value;
 }
 
 export function safeUrl(value) {

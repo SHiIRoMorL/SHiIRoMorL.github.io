@@ -3,5 +3,10 @@
   "REPO_NAME": "SHiIRoMorL.github.io",
   "REPO_BRANCH": "main",
   "OWNER_ID": "268295554",
-  "PUBLIC_SITE_URL": "https://shiiromorl.github.io/"
+  "PUBLIC_SITE_URL": "https://shiiromorl.github.io/",
+  "SITE_DEFAULTS": {
+    "owner": "ShIRoMorl",
+    "signature": "一些文件，一些故事。",
+    "avatar": "img/avatar.png"
+  }
 }

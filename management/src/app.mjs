@@ -1,15 +1,20 @@
 import { LibraryAdmin } from './admin-service.mjs';
 import { encodeBase64, MAX_UPLOAD_BYTES, safeUrl } from './content.mjs';
+import { imageInput } from './site-settings.mjs';
 
 const $ = selector => document.querySelector(selector);
 let config, service, state, panel = 'files', user, editor, busy = false, dirty = false, connecting = false, pollGeneration = 0;
 let noticeTimer;
+let previewGeneration = 0;
+const imagePreviews = new Map();
+const pendingPreviews = new Map();
 const descriptions = {
   files: ['文件柜', '管理文档、备份与零散附件。', '上传文件'],
   documents: ['文档', '编辑随手记和游戏记录，或先保存为草稿。', '新建文档'],
   bookmarks: ['收藏夹', '留住以后会用到的链接。', '添加链接'],
   tools: ['小工具', '收好偶尔需要的工具入口。', '添加工具'],
-  about: ['关于我', '更新你的介绍。', '编辑介绍']
+  about: ['关于我', '更新你的介绍。', '编辑介绍'],
+  site: ['站点资料', '头像、签名，以及首页的几张图片。', '编辑资料与图片']
 };
 
 function element(tag, className, content) {
@@ -26,7 +31,7 @@ function showNotice(message) {
 
 function setBusy(value) {
   busy = value;
-  document.querySelectorAll('[data-mutates], #refresh, #disconnect, .item-actions button').forEach(button => { button.disabled = value; });
+  document.querySelectorAll('[data-mutates], #refresh, #disconnect, .item-actions button, #site-form input, #site-form textarea').forEach(button => { button.disabled = value; });
 }
 
 function action(label, handler, danger = false) {
@@ -51,11 +56,13 @@ function render() {
   const [title, description, create] = descriptions[panel];
   $('#panel-title').textContent = title; $('#panel-description').textContent = description; $('#create-item').textContent = create;
   $('#document-category').hidden = panel !== 'documents';
-  $('#filter').hidden = panel === 'about';
+  $('#filter').hidden = ['about', 'site'].includes(panel);
+  $('.list-toolbar').hidden = panel === 'site';
   document.querySelectorAll('[data-panel]').forEach(button => {
     button.classList.toggle('is-active', button.dataset.panel === panel);
     if (button.dataset.panel === panel) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current');
   });
+  if (panel === 'site') { renderSite(); return; }
   const query = $('#filter').value.trim().toLowerCase();
   const category = $('#document-category').value;
   let items = panel === 'documents' ? state.documents.filter(item => item.category !== 'about' && (category === 'all' || item.category === category)) : panel === 'about' ? state.documents.filter(item => item.category === 'about') : state[panel];
@@ -87,10 +94,112 @@ function render() {
   }
 }
 
+function clearPendingPreviews() {
+  for (const url of pendingPreviews.values()) URL.revokeObjectURL(url);
+  pendingPreviews.clear();
+}
+
+function clearImagePreviews() {
+  previewGeneration++;
+  for (const promise of imagePreviews.values()) promise.then(url => { if (url) URL.revokeObjectURL(url); }).catch(() => {});
+  imagePreviews.clear();
+}
+
+async function imagePreview(image) {
+  if (!image.sha || !service) return null;
+  if (!imagePreviews.has(image.sha)) {
+    const generation = previewGeneration;
+    imagePreviews.set(image.sha, service.previewImage(image.sha).then(bytes => {
+      if (generation !== previewGeneration) return null;
+      const extension = image.image.split('.').at(-1).toLowerCase();
+      return URL.createObjectURL(new Blob([bytes], { type: ['jpg', 'jpeg'].includes(extension) ? 'image/jpeg' : `image/${extension}` }));
+    }).catch(() => null));
+  }
+  return imagePreviews.get(image.sha);
+}
+
+function imageFrame(image) {
+  const frame = element('div', `site-image-preview${image.avatar ? ' avatar-preview' : ''}`);
+  frame.append(element('span', 'image-placeholder', image.image ? '读取图片…' : image.avatar ? '原头像' : '渐变背景'));
+  return frame;
+}
+
+function showImage(frame, url) {
+  if (!url) return;
+  const img = element('img'); img.alt = ''; img.src = url;
+  img.addEventListener('error', () => { frame.replaceChildren(element('span', 'image-placeholder', '图片无法预览')); });
+  frame.replaceChildren(img);
+}
+
+function siteImageCard(image, editable = false) {
+  const card = element('div', 'site-image-card'); card.dataset.slot = image.slot;
+  const frame = imageFrame(image);
+  const generation = previewGeneration;
+  imagePreview(image).then(url => {
+    if (generation !== previewGeneration || !frame.isConnected || editor?.images?.[image.slot]) return;
+    if (url) showImage(frame, url);
+    else if (image.image) frame.replaceChildren(element('span', 'image-placeholder', '暂时无法预览'));
+  });
+  card.append(frame, element('p', 'image-label', image.label));
+  if (editable) {
+    const label = element('label', 'image-picker', '选择图片');
+    const input = element('input'); input.type = 'file'; input.accept = '.png,.jpg,.jpeg,.webp,.gif'; input.dataset.imageSlot = image.slot;
+    const status = element('p', 'image-selection', ''); status.setAttribute('aria-live', 'polite');
+    input.addEventListener('change', async () => {
+      const file = input.files[0]; if (!file || busy) return;
+      const currentEditor = editor;
+      if (file.size > MAX_UPLOAD_BYTES) { input.value = ''; handleError(new Error('单张图片最多上传 8 MB。'), $('#site-form')); return; }
+      setBusy(true);
+      $('#site-form .form-error').textContent = '';
+      try {
+        const contentBase64 = encodeBase64(new Uint8Array(await file.arrayBuffer()));
+        imageInput({ name: file.name, contentBase64 });
+        // 文件头通过后再用浏览器实际解码，损坏的图片不会被选中。
+        const bitmap = await createImageBitmap(file); bitmap.close();
+        if (editor !== currentEditor) return;
+        if (pendingPreviews.has(image.slot)) URL.revokeObjectURL(pendingPreviews.get(image.slot));
+        const url = URL.createObjectURL(file); pendingPreviews.set(image.slot, url); showImage(frame, url);
+        editor.images[image.slot] = { slot: image.slot, action: 'upload', name: file.name, contentBase64 };
+        status.textContent = `待保存：${file.name}`; dirty = true;
+      } catch (error) { input.value = ''; handleError(new Error(error.message || '图片无法打开，请换一张试试。'), $('#site-form')); }
+      finally { setBusy(false); }
+    });
+    label.append(input);
+    const reset = action(image.avatar ? '恢复原头像' : '清除封面', () => {
+      if (busy) return;
+      editor.images[image.slot] = { slot: image.slot, action: 'reset' }; dirty = true; input.value = '';
+      if (pendingPreviews.has(image.slot)) URL.revokeObjectURL(pendingPreviews.get(image.slot));
+      pendingPreviews.delete(image.slot);
+      frame.replaceChildren(element('span', 'image-placeholder', image.avatar ? '将恢复原头像' : '将恢复渐变背景'));
+      status.textContent = '待保存';
+    });
+    reset.dataset.mutates = '';
+    card.append(label, reset, status);
+  }
+  return card;
+}
+
+function renderSite() {
+  const container = $('#items'); container.replaceChildren();
+  const details = element('dl', 'site-details');
+  for (const [label, value] of [['昵称', state.site.owner], ['个人签名', state.site.signature], ['首页短句', state.site.homeSubtitle]]) details.append(element('dt', '', label), element('dd', '', value || '未填写'));
+  const grid = element('div', 'site-image-grid');
+  for (const image of state.site.images) grid.append(siteImageCard(image));
+  container.append(details, grid);
+}
+
+function openSiteEditor() {
+  if (busy) return;
+  clearPendingPreviews();
+  openDialog('#site-dialog', { type: 'site', revision: state.revision, images: {} });
+  $('#site-owner').value = state.site.owner; $('#site-signature').value = state.site.signature; $('#site-subtitle').value = state.site.homeSubtitle;
+  $('#site-image-editors').replaceChildren(...state.site.images.map(image => siteImageCard(image, true)));
+}
+
 async function refresh() {
   if (busy || !service) return;
   setBusy(true);
-  try { state = await service.state(); render(); }
+  try { state = await service.state(); clearImagePreviews(); render(); }
   catch (error) { handleError(error); }
   finally { setBusy(false); }
 }
@@ -126,6 +235,7 @@ function disconnect() {
   pollGeneration++;
   if (service) service.github.token = '';
   service = null; state = null; user = null; editor = null; dirty = false;
+  clearImagePreviews(); clearPendingPreviews(); $('#site-image-editors').replaceChildren();
   $('#token').value = ''; $('#login-error').textContent = ''; $('#items').replaceChildren();
   $('#dashboard').hidden = true; $('#login-panel').hidden = false; $('#publish-status').hidden = true;
   document.querySelectorAll('dialog').forEach(dialog => { dialog.close(); dialog.querySelector('form')?.reset(); });
@@ -171,11 +281,11 @@ async function mutate(method, input, dialog) {
   const form = dialog?.querySelector('form'); if (form) form.querySelector('.form-error').textContent = '';
   try {
     const result = await service[method](input);
-    dirty = false; if (dialog) { dialog.close(); form.reset(); }
+    dirty = false; editor = null; clearPendingPreviews(); if (dialog) { dialog.close(); form.reset(); }
     showNotice('已保存到 GitHub。');
     renderPublication('已保存，网站正在发布。', result.url);
     // 提交已经完成时，列表读取失败不能被显示成保存失败。
-    try { state = await service.state(); render(); } catch (error) { showNotice(`已保存，但列表刷新失败：${error.message}`); }
+    try { state = await service.state(); clearImagePreviews(); render(); } catch (error) { showNotice(`已保存，但列表刷新失败：${error.message}`); }
     pollPublication(result.commit, result.url);
   } catch (error) { handleError(error, form); }
   finally { setBusy(false); }
@@ -212,7 +322,7 @@ async function pollPublication(sha, commitUrl) {
 function closeDialog(dialog) {
   if (busy) return;
   if (dirty && !confirm('放弃尚未保存的编辑？')) return;
-  dirty = false; editor = null; dialog.close(); dialog.querySelector('form').reset();
+  dirty = false; editor = null; clearPendingPreviews(); dialog.close(); dialog.querySelector('form').reset();
 }
 
 async function bootstrap() {
@@ -228,7 +338,7 @@ async function bootstrap() {
   document.querySelectorAll('[data-panel]').forEach(button => button.addEventListener('click', () => { panel = button.dataset.panel; $('#filter').value = ''; render(); }));
   $('#create-item').addEventListener('click', () => {
     if (panel === 'files') openFile(); else if (panel === 'documents') openDocument();
-    else if (panel === 'about') openDocument('content/about/index.md'); else openLinkEditor();
+    else if (panel === 'about') openDocument('content/about/index.md'); else if (panel === 'site') openSiteEditor(); else openLinkEditor();
   });
   document.querySelectorAll('dialog').forEach(dialog => {
     dialog.addEventListener('cancel', event => { event.preventDefault(); closeDialog(dialog); });
@@ -256,6 +366,11 @@ async function bootstrap() {
   $('#link-form').addEventListener('submit', event => {
     event.preventDefault();
     mutate('saveLink', { category: editor.category, id: editor.item?.id, title: $('#link-title').value, description: $('#link-description').value, url: $('#link-url').value, revision: editor.revision }, $('#link-dialog'));
+  });
+  $('#site-form').addEventListener('submit', event => {
+    event.preventDefault();
+    if (busy) return;
+    mutate('saveSiteSettings', { owner: $('#site-owner').value, signature: $('#site-signature').value, homeSubtitle: $('#site-subtitle').value, images: Object.values(editor.images), revision: editor.revision }, $('#site-dialog'));
   });
   $('#document-form').addEventListener('submit', event => {
     event.preventDefault();

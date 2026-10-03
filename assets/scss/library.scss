@@ -40,7 +40,8 @@ svg { display: block; flex-shrink: 0; }
 .profile { display: block; padding: 0 10px; }
 .profile-avatar { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; border: 3px solid var(--surface); box-shadow: 0 3px 14px rgba(44, 69, 108, .08); }
 .profile-name { font-size: 23px; font-weight: 700; letter-spacing: -.7px; line-height: 1.3; margin: 19px 0 6px; }
-.profile-description { font-size: 13px; color: var(--muted); margin: 0; }
+.profile-description { font-size: 13px; color: var(--muted); margin: 0; white-space: pre-line; }
+.profile-name, .profile-description { overflow-wrap: anywhere; }
 .library-nav { margin-top: 42px; }
 .library-nav ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; }
 .library-nav a { display: flex; align-items: center; gap: 17px; min-height: 46px; padding: 11px 17px; border-radius: 8px; color: var(--ink); transition: background .18s, color .18s; }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://api.github.com; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://api.github.com; img-src 'self' data: blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>内容管理 · ShIRoMorl's Library</title>
   <link rel="stylesheet" href="__STYLE__">
   <script src="__SCRIPT__" defer></script>
@@ -39,6 +39,7 @@
           <button data-panel="bookmarks" type="button">收藏夹</button>
           <button data-panel="tools" type="button">小工具</button>
           <button data-panel="about" type="button">关于我</button>
+          <button data-panel="site" type="button">站点资料</button>
         </nav>
         <section class="content-panel" aria-labelledby="panel-title">
           <div class="panel-heading"><div><h1 id="panel-title">文件柜</h1><p id="panel-description"></p></div><button id="create-item" class="primary" type="button" data-mutates>上传文件</button></div>
@@ -53,6 +54,18 @@
   <dialog id="file-dialog"><form id="file-form" class="editor-form"><div class="dialog-heading"><h2 id="file-dialog-title">上传文件</h2><button class="dialog-close plain" type="button" aria-label="关闭">×</button></div><label id="file-picker-label">选择文件<input id="upload-file" type="file"></label><label>文件名<input id="file-name" maxlength="120" required></label><label>显示标题<input id="file-title" maxlength="200" required></label><label>说明<textarea id="file-description" rows="3" maxlength="1000"></textarea></label><p class="hint">单个附件最多 8 MB。公开网站上的文件可被访客下载。</p><p class="form-error error-message" role="alert"></p><div class="form-actions"><button class="secondary dialog-close" type="button">取消</button><button class="primary" type="submit" data-mutates>保存文件</button></div></form></dialog>
 
   <dialog id="link-dialog"><form id="link-form" class="editor-form"><div class="dialog-heading"><h2 id="link-dialog-title">添加链接</h2><button class="dialog-close plain" type="button" aria-label="关闭">×</button></div><label>标题<input id="link-title" maxlength="200" required></label><label>链接<input id="link-url" maxlength="2048" required placeholder="https://… 或 /站内路径"></label><label>说明<textarea id="link-description" rows="3" maxlength="1000"></textarea></label><p class="form-error error-message" role="alert"></p><div class="form-actions"><button class="secondary dialog-close" type="button">取消</button><button class="primary" type="submit" data-mutates>保存链接</button></div></form></dialog>
+
+  <dialog id="site-dialog" class="site-dialog"><form id="site-form" class="editor-form">
+    <div class="dialog-heading"><h2>编辑站点资料</h2><button class="dialog-close plain" type="button" aria-label="关闭">×</button></div>
+    <label>昵称<input id="site-owner" maxlength="80" required></label>
+    <label>个人签名<textarea id="site-signature" rows="2" maxlength="300" placeholder="显示在左侧头像下方"></textarea></label>
+    <label>首页短句<input id="site-subtitle" maxlength="300" placeholder="显示在首页大图上"></label>
+    <p class="hint">支持 PNG、JPG、WebP、GIF，每张最多 8 MB。头像居中裁成圆形，封面居中填满卡片。</p>
+    <div id="site-image-editors" class="site-image-grid"></div>
+    <p class="hint">选择图片后点击保存，资料和图片会一起发布。恢复头像会使用原头像，清除封面会恢复渐变背景。</p>
+    <p class="form-error error-message" role="alert"></p>
+    <div class="form-actions"><button class="secondary dialog-close" type="button">取消</button><button class="primary" type="submit" data-mutates>保存并发布</button></div>
+  </form></dialog>
 
   <dialog id="document-dialog" class="document-dialog"><form id="document-form" class="editor-form"><div class="dialog-heading"><h2 id="document-dialog-title">新建文档</h2><button class="dialog-close plain" type="button" aria-label="关闭">×</button></div><label>标题<input id="document-title" maxlength="200" required></label><label>简介<input id="document-description" maxlength="1000"></label><div class="form-row"><label>栏目<select id="editor-category"><option value="notes">随手记</option><option value="games">游戏记录</option><option value="about" hidden>关于我</option></select></label><label>日期<input id="document-date" type="date"></label></div><label id="slug-label">文件名（可选）<input id="document-slug" pattern="[a-z0-9][a-z0-9-]{0,79}" maxlength="80" placeholder="例如 first-note；留空自动生成"></label><div class="markdown-toolbar" aria-label="Markdown 格式"><button type="button" data-format="heading">标题</button><button type="button" data-format="bold">粗体</button><button type="button" data-format="link">链接</button><button type="button" data-format="list">列表</button><button type="button" data-format="code">代码</button></div><label for="document-body" class="visually-hidden">Markdown 正文</label><textarea id="document-body" class="markdown-editor" rows="16" spellcheck="false" placeholder="从这里写下正文…"></textarea><p class="hint">正文使用 Markdown；保存会创建 Git 提交，发布后网站自动更新。</p><p class="form-error error-message" role="alert"></p><div class="form-actions"><button id="save-draft" class="secondary" type="submit" data-draft="true" data-mutates>保存为草稿</button><button class="primary" type="submit" data-draft="false" data-mutates>保存并发布</button></div></form></dialog>
   <footer class="footer">文件、收藏，以及偶尔留下的故事。</footer>

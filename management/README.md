@@ -21,9 +21,12 @@
 - **收藏夹 / 小工具**：添加、编辑、删除链接。
 - **文档**：管理 `content/notes/` 和 `content/games/` 中的 Markdown，支持草稿、发布和删除。
 - **关于我**：编辑介绍，保留原来的导航配置。
+- **站点资料**：修改昵称、个人签名、首页短句；上传和预览头像、首页主图、四个栏目封面，支持更换、恢复原头像和清除封面。资料与所选图片在同一次提交中保存。
 - 保存形成 Git 提交，随后由现有 Actions 工作流构建和发布。后台会查询发布状态；缺少 Actions 读取权限时，也可直接打开 GitHub 查看。
 
-单个附件最多 **8 MB**，正文最多 **256 KB**。支持常见文档、压缩包、图片和媒体附件；不支持通过文件柜上传 HTML、JavaScript、SVG 等可执行网页资源。文件柜中的图片暂作为普通附件，不会自动替换首页封面。
+单个附件最多 **8 MB**，正文最多 **256 KB**。支持常见文档、压缩包、图片和媒体附件；不支持通过文件柜上传 HTML、JavaScript、SVG 等可执行网页资源。文件柜中的图片作为普通附件；更换站点图片请使用“站点资料”。
+
+站点图片支持 PNG、JPG、WebP、GIF，每张最多 **8 MB**。保存前检查真实格式并由浏览器解码预览；头像居中裁成圆形，封面居中填满卡片。新图片保存在 `static/images/site/`，使用唯一文件名避免旧图片缓存；替换或清除时，只清理已无站点图片引用的后台图片，保留原头像和普通附件。昵称和签名保存在 `data/library.toml` 的 `[profile]` 中，没有覆盖值时沿用原配置。
 
 Markdown 正文中的原始 HTML 不渲染，避免把粘贴的脚本当成网页代码执行。
 
@@ -66,6 +69,7 @@ npm --prefix management run demo
 | `src/admin-service.mjs` | 文件、链接与 Markdown 管理 |
 | `src/github.mjs` | GitHub API、版本读取与原子提交 |
 | `src/content.mjs` | 路径、链接、文件和文档校验，TOML/YAML 读写 |
+| `src/site-settings.mjs` | 站点资料、图片格式校验和图片引用 |
 | `public/index.html`、`public/style.css` | 页面与样式源文件 |
 | `public/config.json` | 公开仓库标识，不包含凭据 |
 | `scripts/build.mjs` | 打包到 `static/admin/` |

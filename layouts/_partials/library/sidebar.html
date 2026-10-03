@@ -1,12 +1,17 @@
 <aside class="library-sidebar" aria-label="站点导航">
     <div class="sidebar-top">
         <a class="profile" href="{{ .Site.Home.RelPermalink }}" aria-label="{{ .Site.Title }}，返回主页">
-            {{ with resources.Get .Site.Params.sidebar.avatar }}
-                <img class="profile-avatar" src="{{ .RelPermalink }}" width="88" height="88" alt="ShIRoMorl 的头像">
-            {{ end }}
+            {{ $profile := .Site.Data.library.profile | default dict }}
+            {{ $owner := $profile.owner | default .Site.Params.mysite.owner }}
+            {{ $signature := .Site.Params.sidebar.subtitle }}
+            {{ if isset $profile "signature" }}{{ $signature = $profile.signature }}{{ end }}
+            {{ $avatar := $profile.avatar | default .Site.Params.sidebar.avatar }}
+            {{ $avatarURL := $avatar | relURL }}
+            {{ with resources.Get $avatar }}{{ $avatarURL = .RelPermalink }}{{ end }}
+            <img class="profile-avatar" src="{{ $avatarURL }}" width="88" height="88" alt="{{ $owner }} 的头像">
             <div class="profile-copy">
-                <p class="profile-name">{{ .Site.Params.mysite.owner }}</p>
-                <p class="profile-description">{{ .Site.Params.sidebar.subtitle }}</p>
+                <p class="profile-name">{{ $owner }}</p>
+                <p class="profile-description">{{ $signature }}</p>
             </div>
         </a>
         <button class="nav-toggle icon-button" type="button" aria-label="展开导航" aria-controls="library-nav" aria-expanded="false">

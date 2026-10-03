@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, readdir, unlink, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { parse } from 'smol-toml';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const output = path.resolve(root, '../static/admin');
@@ -17,7 +18,11 @@ const html = (await readFile(path.join(root, 'public/index.html'), 'utf8')).repl
 await writeFile(path.join(output, scriptName), js);
 await writeFile(path.join(output, styleName), css);
 await writeFile(path.join(output, 'index.html'), html);
-await writeFile(path.join(output, 'config.json'), await readFile(path.join(root, 'public/config.json')));
+const config = JSON.parse(await readFile(path.join(root, 'public/config.json'), 'utf8'));
+const params = parse(await readFile(path.resolve(root, '../config/_default/params.toml'), 'utf8'));
+const languages = parse(await readFile(path.resolve(root, '../config/_default/languages.toml'), 'utf8'));
+config.SITE_DEFAULTS = { owner: params.mysite.owner, signature: languages.zh.params.sidebar.subtitle, avatar: params.sidebar.avatar };
+await writeFile(path.join(output, 'config.json'), JSON.stringify(config, null, 2) + '\n');
 // 只清理本脚本生成的旧版本文件，不递归删除目录。
 for (const name of await readdir(output)) {
   if (/^(app\.[a-f0-9]{12}\.js|style\.[a-f0-9]{12}\.css)$/.test(name) && ![scriptName, styleName].includes(name)) await unlink(path.join(output, name));

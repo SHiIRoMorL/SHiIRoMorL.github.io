@@ -18,8 +18,8 @@ hugo --minify
 | 内容 | 位置 |
 |---|---|
 | 站点名称、域名 | `hugo.toml` |
-| 侧栏昵称 | `config/_default/params.toml` 的 `mysite.owner` |
-| 侧栏副标题、社交链接 | `config/_default/languages.toml` |
+| 侧栏昵称、签名、头像 | `data/library.toml` 的 `profile`，未设置时沿用 `config/_default/` |
+| 侧栏社交链接 | `config/_default/languages.toml` |
 | 首页文案、入口、封面路径 | `data/library.toml` |
 | 文件、收藏、工具等栏目条目 | `data/library.toml` 的 `collections` |
 | 栏目说明和导航顺序 | `content/*/_index.md` 的 front matter |
@@ -34,6 +34,10 @@ hugo --minify
 主题源码保留在 `themes/new/`，新布局通过站点级模板覆盖实现。它不再加载 Stack 的主样式和脚本，也不依赖外部字体或 npm 安装。现有主题资源仍保留，便于后续复用。
 
 ## 换上图片
+
+在网页后台 `/admin/` 的“站点资料”里点击“编辑资料与图片”，可以上传头像、首页主图和四个栏目封面，同时修改昵称、个人签名和首页短句。选择后点击“保存并发布”，等待自动发布完成即可。每张图片最多 8 MB，支持 PNG、JPG、WebP、GIF。
+
+也可以手动配置图片：
 
 将图片放在 `assets/img/`，然后编辑 `data/library.toml`：
 

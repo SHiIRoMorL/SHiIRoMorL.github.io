@@ -11,6 +11,7 @@ const port = 8787;
 const config = JSON.parse(await readFile(path.join(adminRoot, 'config.json'), 'utf8'));
 const fake = demo ? new FakeGitHub({
   'data/library.toml': await readFile(path.join(root, 'data/library.toml'), 'utf8'),
+  [`assets/${config.SITE_DEFAULTS.avatar}`]: await readFile(path.join(root, 'assets', config.SITE_DEFAULTS.avatar)),
   'content/about/index.md': await readFile(path.join(root, 'content/about/index.md'), 'utf8'),
   'content/notes/welcome.md': '---\ntitle: 第一条随手记\ndescription: 用来试试编辑和草稿。\ndate: 2026-10-03\ndraft: true\n---\n\n## 从这里开始\n\n这是一条本地演示记录，不会上传到 GitHub。\n',
   'static/files/示例说明.txt': '这只是一个本地演示附件。'

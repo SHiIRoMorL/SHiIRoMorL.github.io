@@ -1,6 +1,7 @@
 import { HttpError } from './auth.mjs';
 import { GitHub } from './github.mjs';
-import { LIBRARY_PATH, MAX_UPLOAD_BYTES, decodeBase64, documentPath, documentInput, entries, filePath, filename, fileUrl, matchingFile, newDocumentPath, parseDocument, safeUrl, serializeLibrary, setEntries, text } from './content.mjs';
+import { imageReferences, setImageReference, settingsInput, siteSettings } from './site-settings.mjs';
+import { LIBRARY_PATH, MAX_UPLOAD_BYTES, decodeBase64, documentPath, documentInput, entries, filePath, filename, fileUrl, matchingFile, managedImagePath, newDocumentPath, parseDocument, safeUrl, serializeLibrary, setEntries, text } from './content.mjs';
 
 function revision(value) {
   if (typeof value !== 'string' || !/^[a-f0-9]{40}$/.test(value)) throw new HttpError(400, '请先刷新列表，再执行保存。', 'revision_required');
@@ -21,6 +22,7 @@ export class LibraryAdmin {
     if (!/^github_pat_[A-Za-z0-9_]+$/.test(token)) throw new HttpError(400, '请输入 GitHub 细粒度访问令牌。');
     this.github = new GitHub(config, token, fetchImpl);
     this.ownerId = config.OWNER_ID;
+    this.siteDefaults = config.SITE_DEFAULTS || {};
     this.verified = false;
   }
 
@@ -63,7 +65,37 @@ export class LibraryAdmin {
       }));
       documents.push(...group);
     }
-    return { revision: snapshot.revision, files: files.sort((a, b) => a.name.localeCompare(b.name, 'zh')), documents: documents.sort((a, b) => b.date.localeCompare(a.date)), bookmarks: entries(snapshot.library, 'bookmarks'), tools: entries(snapshot.library, 'tools'), maxUploadBytes: MAX_UPLOAD_BYTES };
+    return { revision: snapshot.revision, site: siteSettings(snapshot, this.siteDefaults), files: files.sort((a, b) => a.name.localeCompare(b.name, 'zh')), documents: documents.sort((a, b) => b.date.localeCompare(a.date)), bookmarks: entries(snapshot.library, 'bookmarks'), tools: entries(snapshot.library, 'tools'), maxUploadBytes: MAX_UPLOAD_BYTES };
+  }
+
+  async previewImage(sha) {
+    await this.guard();
+    if (typeof sha !== 'string' || !/^[a-f0-9]{40}$/.test(sha)) throw new HttpError(400, '图片引用不正确。');
+    const blob = await this.github.api(`${this.github.base}/git/blobs/${sha}`);
+    return decodeBase64(blob.content.replace(/\s/g, ''));
+  }
+
+  async saveSiteSettings(input) {
+    await this.guard();
+    const settings = settingsInput(input);
+    const snapshot = await this.github.snapshot(revision(input.revision));
+    const previous = imageReferences(snapshot.library);
+    snapshot.library.profile = { ...snapshot.library.profile, owner: settings.owner, signature: settings.signature };
+    snapshot.library.home.subtitle = settings.homeSubtitle;
+    const changes = [];
+    for (const image of settings.images) {
+      const path = image.action === 'upload' ? `static/images/site/${crypto.randomUUID()}.${image.extension}` : '';
+      setImageReference(snapshot.library, image.slot, path ? path.slice('static/'.length) : '');
+      if (path) changes.push({ path, base64: image.contentBase64 });
+    }
+    const remaining = new Set(imageReferences(snapshot.library));
+    for (const path of new Set(previous)) {
+      // 只删除已经无人引用的后台图片；原始素材与文件柜附件均保留。
+      try { managedImagePath(path); } catch { continue; }
+      if (!remaining.has(path) && snapshot.blobs.has(path)) changes.push({ path, sha: null });
+    }
+    changes.push({ path: LIBRARY_PATH, text: serializeLibrary(snapshot.library) });
+    return this.github.commit(snapshot, changes, 'Update site profile and cover images');
   }
 
   async document(path) {
